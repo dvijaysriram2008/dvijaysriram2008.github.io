@@ -528,7 +528,7 @@
 
         <!-- Section Title Start -->
         <div
-          x-data="{ sectionTitle: `Let’s Stay Connected`, sectionTitleText: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using.`}"
+          x-data="{ sectionTitle: `Let's Stay Connected`, sectionTitleText: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using.`}"
         >
           <div class="animate_top bb ze rj ki xn vq">
     <h2
@@ -934,6 +934,59 @@
           ],
         };
       };
+
+      // Contact Form Handler
+      document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.querySelector('form[action="https://formbold.com/s/unique_form_id"]');
+        
+        if (contactForm) {
+          contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const fullname = formData.get('fullname');
+            const email = formData.get('email');
+            const phone = formData.get('phone');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Validate form data
+            if (!fullname || !email || !message) {
+              alert('Please fill in all required fields (Name, Email, and Message)');
+              return;
+            }
+            
+            // Create email body
+            const emailBody = `
+              New Contact Form Submission from Techomaniax Website
+              
+              Name: ${fullname}
+              Email: ${email}
+              Phone: ${phone || 'Not provided'}
+              Subject: ${subject || 'General Inquiry'}
+              
+              Message:
+              ${message}
+              
+              ---
+              This message was sent from the Techomaniax contact form.
+            `;
+            
+            // Send email using mailto link
+            const mailtoLink = `mailto:admin@techomaniax.com?subject=Contact Form: ${encodeURIComponent(subject || 'General Inquiry')}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open default email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            alert('Thank you for your message! Your email client should open with a pre-filled message. Please send the email to complete your inquiry.');
+            
+            // Reset form
+            contactForm.reset();
+          });
+        }
+      });
     </script>
   <script defer src="bundle.js"></script></body>
 </html>
